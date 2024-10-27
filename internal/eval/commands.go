@@ -1268,6 +1268,27 @@ var (
 		NewEval:    evalCMSMerge,
 		KeySpecs:   KeySpecs{BeginIndex: 1},
 	}
+	cfreserveCmdMeta = DiceCmdMeta{
+		Name: "CF.RESERVE",
+		Info: `CF.RESERVE key capacity [options]
+		The CF.RESERVE command creates a new Cuckoo Filter with the specified capacity.
+		This filter will reserve space for approximately the given number of items and will scale automatically as needed.
+
+		Parameters:
+		- key: The name of the Cuckoo Filter.
+		- capacity: An integer representing the initial capacity of the filter (i.e., how many items it can store).
+		- options: (Optional) Additional options, such as:
+		  - bucket_size: Number of items in each bucket.
+		  - max_iterations: Maximum number of attempts to insert an item.
+		  - expansion: Controls how the filter size expands when full.
+
+		Returns:
+		- OK: If the filter was successfully created.
+		- Error: If the filter with the given name already exists or invalid parameters are provided.`,
+		Eval:     evalCFRESERVE,
+		Arity:    -3,
+		KeySpecs: KeySpecs{BeginIndex: 1},
+	}
 )
 
 func init() {
@@ -1407,6 +1428,7 @@ func init() {
 	DiceCmds["CMS.QUERY"] = cmsQueryCmdMeta
 	DiceCmds["CMS.INCRBY"] = cmsIncrByCmdMeta
 	DiceCmds["CMS.MERGE"] = cmsMergeCmdMeta
+	DiceCmds["CF.RESERVE"] = cfreserveCmdMeta
 }
 
 // Function to convert DiceCmdMeta to []interface{}
